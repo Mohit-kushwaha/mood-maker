@@ -24,9 +24,9 @@ export const verifyToken = asyncHandler(
         } else {
           throw new Error("JWT_SECRET not recognised");
         }
-        // console.log(decoded)
+        console.log(typeof(decoded.id))
         // Get user from the token
-        if (isObject(decoded.id)){
+        if (isObject(decoded.id) === 'object'){
           req.user = await User.findById(decoded.id.path).select("-password");
         }
         else{
