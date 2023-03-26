@@ -1,0 +1,4 @@
+node_modules
+.bash_profile
+.DS_Store
+yarn-error.log
