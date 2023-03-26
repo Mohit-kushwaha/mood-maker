@@ -24,9 +24,15 @@ export const verifyToken = asyncHandler(
         } else {
           throw new Error("JWT_SECRET not recognised");
         }
-
+        // console.log(decoded)
         // Get user from the token
-        req.user = await User.findById(decoded.id).select("-password");
+        if (isObject(decoded.id)){
+          req.user = await User.findById(decoded.id.path).select("-password");
+        }
+        else{
+          req.user = await User.findById(decoded.id).select("-password");
+        }
+       
 
         // If user extracted from token is null (not found in DB), throw an error
         if (req.user === null) throw new Error();
@@ -43,3 +49,7 @@ export const verifyToken = asyncHandler(
     }
   }
 );
+
+function isObject(objValue :any) {
+  return objValue && typeof objValue === 'object' && objValue.constructor === Object;
+}
